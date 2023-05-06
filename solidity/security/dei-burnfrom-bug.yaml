@@ -1,0 +1,24 @@
+rules:
+ -
+    id: dei-burnfrom-bug
+    message: Parameter "from" is checked at incorrect position in "approve" mapping
+    metadata:
+        references:
+        - https://twitter.com/paladincharles/status/1654585109964619777?s=67&t=BKrGdU3swkUxt5hrC7zRdQ
+        - https://arbiscan.io/address/0xbc1b62db243b51dabcd9540473324f36e094ec55
+        category: security
+        tags:
+        - erc20
+        - dei
+    patterns:
+        - pattern-inside: |
+            function $BURNFROM(..., address $FROM, ...) {
+                ...
+                _approve($FROM, ...);
+                _burn($FROM, ...);
+                ...
+            }
+    languages: 
+    - solidity
+    severity: ERROR
+
