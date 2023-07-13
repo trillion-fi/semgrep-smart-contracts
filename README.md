@@ -111,6 +111,12 @@ unrestricted-transferownership | Ragnarok Online Invasion | Contract ownership c
 msg-value-multicall | Sushiswap | Function with constant msg.value can be called multiple times
 no-bidi-characters | Generic | The code must not contain any of Unicode Direction Control Characters
 delegatecall-to-arbitrary-address | Generic | An attacker may perform delegatecall() to an arbitrary address.
+incorrect-use-of-blockhash | Generic | blockhash(block.number) and blockhash(block.number + N) always returns 0.
+accessible-selfdestruct | Generic | Contract can be destructed by anyone in $FUNC
+no-slippage-check| Generic|  No slippage check in a Uniswap v2/v3 trade
+balancer-readonly-reentrancy-getrate | Balancer | getRate() call on a Balancer pool is not protected from the read-only reentrancy.
+balancer-readonly-reentrancy-getpooltokens | Balancer | getPoolTokens() call on a Balancer pool is not protected from the read-only reentrancy.
+curve-readonly-reentrancy | Curve | get_virtual_price() call on a Curve pool is not protected from the read-only reentrancy.
 
 ## Gas Optimization Rules
 
@@ -128,3 +134,11 @@ use-prefix-increment-not-postfix | The prefix increment expression is cheaper in
 use-short-revert-string | Shortening revert strings to fit in 32 bytes will decrease gas costs for deployment and gas costs when the revert condition has been met.
 non-payable-constructor | Consider making costructor payable to save gas.
 non-optimal-variables-swap | Consider swapping variables using `($VAR1, $VAR2) = ($VAR2, $VAR1)` to save gas.
+inefficient-state-variable-increment | <x> += <y> costs more gas than <x> = <x> + <y> for state variables.
+
+## Best Practices Rules
+
+Rule ID | Description
+--- | ---
+use-abi-encodecall-instead-of-encodewithselector | To guarantee arguments type safety it is recommended to use `abi.encodeCall` instead of `abi.encodeWithSelector`.
+use-ownable2step | By demanding that the receiver of the owner permissions actively accept via a contract call of its own, `Ownable2Step` and `Ownable2StepUpgradeable` prevent the contract ownership from accidentally being transferred to an address that cannot handle it.
